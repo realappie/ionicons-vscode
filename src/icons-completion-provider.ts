@@ -29,7 +29,7 @@ export class IonIconsCompletionProvider implements CompletionItemProvider {
     constructor(private readonly globalStorageUriPath: string) {}
 
     async provideCompletionItems(document: TextDocument, position: Position) {
-        const ionIconNameRegex = new RegExp(/<ion-icon name=["|']([\w- ]*)/);
+        const ionIconNameRegex = new RegExp(/<ion-icon name=["|']([\w- ]*)/, 'd');
 
         const htmlContent = document.lineAt(position).text
 
