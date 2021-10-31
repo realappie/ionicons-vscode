@@ -51,20 +51,24 @@ export class IonIconsDecorations implements vscode.Disposable {
     }
 
     const text = vscode.window.activeTextEditor?.document.getText();
-
     const matches = Array.from(
       text!.matchAll(
-        /(?!<ion-icon .*)(name)=["']?((?:.(?!["']?\s+(?:\S+)=|[>"']))+.)["']?/g
+        /(ion-icon|IonIcon) (.*)(name|icon)=["|'|{]([\w- ]*)/g
       )
     );
+
     // TODO figure out a cleaner way to find ion-icons elements
     // see https://github.com/microsoft/vscode/issues/59921
     //
     matches.forEach((match) => {
-      const [, , iconName] = match;
+
+      // The last match should be the icon name
+      const rawIconName = match[match.length - 1];
+
+      // Convert camel case (i.e. "alarmOutline") to kebab case (i.e. "alarm-outline")
+      const iconName = rawIconName.replace(/([a-z0-9]|(?=[A-Z]))([A-Z])/g, '$1-$2').toLowerCase();
 
       const lightIconFileName = `${iconName}.svg`;
-
       const darkIconFileName = `${iconName}-dark-mode.svg`;
 
       const lightModeIconPath = createFilePath({
@@ -145,7 +149,7 @@ export class IonIconsDecorations implements vscode.Disposable {
 
   /** we dont want to be handling all files */
   isAnalyzable(textDocument: vscode.TextDocument): boolean {
-    const analyzableLanguages = ['html'];
+    const analyzableLanguages = ['html', 'vue', 'javascriptreact', 'typescriptreact'];
     return analyzableLanguages.includes(textDocument.languageId);
   }
 
