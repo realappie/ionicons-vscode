@@ -2,7 +2,7 @@
 	"name": "ionicons",
 	"displayName": "ionicons",
 	"description": "Display ionic icons in the gutter of vscode",
-	"version": "0.0.7",
+	"version": "0.0.8",
 	"icon": "resources/icon.png",
 	"repository": "https://github.com/realappie/ionicons-vscode",
 	"author": {
