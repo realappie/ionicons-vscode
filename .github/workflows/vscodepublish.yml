@@ -17,11 +17,6 @@ jobs:
         with:
           node-version: '${{steps.nvm_step.outputs.NVMRC}}'
       - run: npm ci
-      - run: xvfb-run -a npm test
-      - run: npx semantic-release
-        if: github.event_name == 'push'
-        env:
-          GH_TOKEN: ${{secrets.GITHUB_TOKEN}}
-          NPM_TOKEN: ${{secrets.NPM_TOKEN}}      
+      - run: xvfb-run -a npm test   
       - run: npx vsce package
       - run: npx vsce publish -p "${{ secrets.AZURE_PERSONAL_TOKEN }}"
