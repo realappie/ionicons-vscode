@@ -69,7 +69,7 @@ export class IonIconsCompletionProvider implements CompletionItemProvider {
         }, async (progress) => {
             
             progress.report({  increment: 0 });
-            
+
             const iconName = item.label;
 
             const iconPath = this.createFilePathForIconName(iconName);
@@ -104,7 +104,7 @@ export class IonIconsCompletionProvider implements CompletionItemProvider {
      * ion-icon name attribute or not
      */
     shouldProvideAutoCompletion(document: TextDocument, position: Position): boolean { 
-        const ionIconNameRegex = new RegExp(/<ion-icon name=["|']([\w- ]*)/, 'd');
+        const ionIconNameRegex = new RegExp(`<ion-icon.+?name=['|"](.*)["|']`, 'd');
 
         const htmlContent = document.lineAt(position).text
 
