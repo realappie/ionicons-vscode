@@ -14,7 +14,13 @@ jobs:
         run: nvmrc=$(cat .nvmrc)
       - uses: actions/setup-node@v1
         with:
-          node-version: 12
+          node-version: $nvmrc
       - run: npm ci
+      - run: npm run test
+      - run: npx semantic-release
+        if: github.event_name == 'push'
+        env:
+          GH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          NPM_TOKEN: ${{secrets.NPM_TOKEN}}      
       - run: npx vsce package
       - run: npx vsce publish -p "${{ secrets.AZURE_PERSONAL_TOKEN }}"

@@ -48,6 +48,8 @@ export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(
 		vscode.languages.registerCompletionItemProvider('html', iconCompletionProvider)
 	);
+
+	return context;
 }
 
 // this method is called when your extension is deactivated
