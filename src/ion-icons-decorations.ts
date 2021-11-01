@@ -68,6 +68,12 @@ export class IonIconsDecorations implements vscode.Disposable {
       // Convert camel case (i.e. "alarmOutline") to kebab case (i.e. "alarm-outline")
       const iconName = rawIconName.replace(/([a-z0-9]|(?=[A-Z]))([A-Z])/g, '$1-$2').toLowerCase();
 
+      // If icon name is an empty string, we would like to return early.
+      if (!iconName) {
+        return;
+      }
+
+
       const lightIconFileName = `${iconName}.svg`;
       const darkIconFileName = `${iconName}-dark-mode.svg`;
 
