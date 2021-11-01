@@ -60,7 +60,7 @@ export class IonIconsCompletionProvider implements CompletionItemProvider {
     }
 
 
-    async resolveCompletionItem(item: CompletionItem): Promise<CompletionItem> {
+    async resolveCompletionItem(completionItem: CompletionItem): Promise<CompletionItem> {
 
         await vscodeWindow.withProgress({
             location: ProgressLocation.Window,
@@ -70,7 +70,7 @@ export class IonIconsCompletionProvider implements CompletionItemProvider {
             
             progress.report({  increment: 0 });
 
-            const iconName = item.label;
+            const iconName: string = typeof completionItem.label === 'string' ? completionItem.label : completionItem.label.label;
 
             const iconPath = this.createFilePathForIconName(iconName);
 
@@ -79,24 +79,24 @@ export class IonIconsCompletionProvider implements CompletionItemProvider {
 
             const markdown = new MarkdownString(`![${iconName}](${iconUri})`);
 
-            item.documentation = markdown
+            completionItem.documentation = markdown
 
             if (!fileExists(iconPath)) {
                 try {
-                    const svgIconText = await iconLoader(item.label, false);
+                    const svgIconText = await iconLoader(iconName, false);
 
                     saveFileInDir(svgIconText.darkMode, iconPath);
                 } catch (error) {
                     console.error('[ionicons:resolveCompletionItem] resolveCompletionItem', error);
                     Logger.appendLine(`Failed to load ionicon svg with name=${iconName} reason=${error}`, 'resolveCompletionItem', false);
-                    item.documentation = 'Failed to load icon preview, see output => ionicons for error';
+                    completionItem.documentation = 'Failed to load icon preview, see output => ionicons for error';
                 }
             }
             
             progress.report({ increment: 100 });    
         });
 
-        return item;
+        return completionItem;
     }
 
     /** 
