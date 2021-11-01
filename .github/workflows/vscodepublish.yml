@@ -11,10 +11,11 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Read nvmrc
-        run: nvmrc=$(cat .nvmrc)
+        run: echo ::set-output name=NVMRC::$(cat .nvmrc)
+        id: nvm_step
       - uses: actions/setup-node@v1
         with:
-          node-version: $nvmrc
+          node-version: '${{steps.nvm_step.outputs.NVMRC}}'
       - run: npm ci
       - run: npm run test
       - run: npx semantic-release
