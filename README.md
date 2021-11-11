@@ -1,4 +1,4 @@
-# ionicons 
+# ionicons ![market place image](https://vsmarketplacebadge.apphb.com/version/realappie.ionicons.svg)
 
 Get ionicicons autocomplete & see ionicons in use in your vscode gutter
 
